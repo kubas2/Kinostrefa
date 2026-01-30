@@ -1,0 +1,479 @@
+* {
+            box-sizing: border-box;
+        }
+        
+        /* scroll-behavior: smooth - powoduje płynne przewijanie strony (np. gdy klikamy link do #sekcja) */
+        /* scroll-padding-top: 80px - dodaje odstęp na górze przy przewijaniu, żeby sticky header nie zasłaniał treści */
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: #fff;
+            line-height: 1.6;
+        }
+        /* header - górny nagłówek strony z logo i nawigacją */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: #1a1a1a;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            /* position: sticky - przykleja header do góry strony podczas przewijania w dół */
+            /* top: 0 - przykleja się na samej górze (0px od góry) */
+            position: sticky;
+            top: 0;
+        }
+        
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            color: #f5c518;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            /* transition - płynne przejście zmian właściwości (tutaj transform) przez 0.3s */
+            transition: transform 0.3s ease;
+        }
+        
+        /* :hover - style które działają gdy najedziemy myszką na element */
+        /* transform: scale(1.05) - powiększa element o 5% (1.0 = 100%, 1.05 = 105%) */
+        header h1:hover {
+            transform: scale(1.05);
+        }
+        
+        nav {
+            display: flex;
+            gap: 10px;
+        }
+        
+        /* nav a - linki w nawigacji (Home, Filmy, itp.) */
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 5px;
+            /* transition: all - płynne przejście WSZYSTKICH właściwości które się zmieniają przy hover */
+            transition: all 0.3s ease;
+        }
+        
+        /* Zmiana koloru i tła linku gdy najedziemy myszką */
+        nav a:hover {
+            color: #f5c518;
+            background-color: rgba(245, 197, 24, 0.1);
+        }
+        /* .hero - sekcja z dużym banerem na górze strony */
+        /* background: linear-gradient - tworzy gradient (płynne przejście kolorów) z czarnego półprzezroczystego do ciemniejszego */
+        /* Pierwszy gradient to overlay (nakładka) na obrazku, potem jest url() z obrazkiem */
+        /* center/cover no-repeat - obrazek wyśrodkowany, pokrywa cały obszar, nie powtarza się */
+        .hero {
+            padding: 120px 20px;
+            text-align: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.8)), 
+                        url("https://sendziak.w.zset.leszno.pl/img/hero.jpg") center/cover no-repeat;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            margin: 0;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
+            font-weight: 700;
+            letter-spacing: 2px;
+            /* animation - odtwarza animację fadeInUp przez 1 sekundę przy załadowaniu strony */
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        /* @keyframes - definiuje animację fadeInUp (nazwa własna) */
+        /* from = stan początkowy (niewidoczny, przesunięty w dół o 30px) */
+        /* to = stan końcowy (widoczny, na swoim miejscu) */
+        /* transform: translateY(30px) - przesuwa element o 30px w dół (Y to oś pionowa) */
+        /* opacity - przezroczystość (0 = niewidoczny, 1 = w pełni widoczny) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .container {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        
+        .container h2 {
+            font-size: 32px;
+            margin-bottom: 30px;
+            color: #f5c518;
+            font-weight: 700;
+            letter-spacing: 1px;
+            /* position: relative - potrzebne żeby ::after mógł się pozycjonować względem tego elementu */
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        /* ::after - pseudo-element, dodaje "wirtualny" element PO h2 (bez dodawania HTML) */
+        /* content: '' - wymagane dla ::after, nawet jeśli pusty (dodaje element do DOM) */
+        /* position: absolute - pozycjonowanie absolutne względem rodzica (h2 z position: relative) */
+        /* bottom: 0, left: 0 - umieszcza linię na dole, od lewej */
+        /* background: linear-gradient(90deg, ...) - gradient poziomy (90deg) od żółtego do przezroczystego */
+        .container h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #f5c518, transparent);
+            border-radius: 2px;
+        }
+        /* .movie-list - kontener z kartami filmów, używa CSS Grid do układania ich w kolumnach */
+        /* grid-template-columns - automatycznie tworzy kolumny (min 200px szerokości, maksymalnie równe) */
+        .movie-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        /* .movie-item - pojedyncza karta z filmem (plakat + tytuł) */
+        .movie-item {
+            background-color: #1a1a1a;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            /* transition - płynne przejście wszystkich zmian (np. przy hover) */
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .movie-item a {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        /* transform: translateY(-5px) - przesuwa kartę o 5px do góry (efekt "unoszenia się") */
+        /* Wartość ujemna = w górę, dodatnia = w dół */
+        .movie-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(245, 197, 24, 0.3);
+            background-color: #1f1f1f;
+        }
+        
+        .movie-item img {
+            width: 100%;
+            border-radius: 8px;
+            /* transition tylko dla transform - płynne powiększanie obrazka */
+            transition: transform 0.3s ease;
+            display: block;
+        }
+        
+        /* transform: scale(1.05) - powiększa obrazek o 5% gdy najedziemy na kartę */
+        .movie-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .movie-item h3 {
+            margin: 15px 0 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            transition: color 0.3s ease;
+        }
+        
+        .movie-item:hover h3 {
+            color: #f5c518;
+        }
+        /* .rating-section - sekcja z formularzem dodawania recenzji */
+        /* background: linear-gradient(135deg, ...) - gradient pod kątem 135 stopni (od lewego górnego rogu do prawego dolnego) */
+        /* 0% i 100% - kolory na początku i końcu gradientu */
+        .rating-section {
+            margin-top: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, #262626 0%, #1f1f1f 100%);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(245, 197, 24, 0.1);
+        }
+        
+        .rating-section h2 {
+            margin: 0 0 30px;
+            font-size: 28px;
+            color: #f5c518;
+            font-weight: 700;
+        }
+        /* .placeholder-box - kontener na formularz i tabelę z filmami */
+        .placeholder-box {
+            width: 100%;
+            height: auto;
+            border: none;
+            border-radius: 10px;
+            padding: 20px;
+            color: #777;
+            font-size: 18px;
+        }
+        
+        /* Style dla formularza */
+        /* flex-direction: column - układa elementy formularza w kolumnie (jeden pod drugim) */
+        /* gap: 20px - odstęp między elementami formularza */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        form label {
+            color: #f5c518;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        /* Styluje wszystkie pola tekstowe, select i textarea w formularzu */
+        /* transition: all - płynne przejście wszystkich zmian właściwości (np. przy focus i hover) */
+        form input[type="text"],
+        form select,
+        form textarea,
+        input[type='text'], input[type='email'], input[type='password'], input[type='username'] {
+            padding: 14px 16px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            background-color: #1a1a1a;
+            color: #fff;
+            font-size: 15px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            width: 100%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* :hover - style działają gdy najedziemy myszką na pole formularza */
+        form input[type="text"]:hover,
+        form select:hover,
+        form textarea:hover, input[type='text']:hover, input[type='email']:hover, input[type='password']:hover, input[type='username']:hover {
+            border-color: #444;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* :focus - style działają gdy pole formularza jest aktywne (kliknięte/aktywne) */
+        /* outline: none - usuwa domyślne obramowanie przeglądarki przy focus */
+        form input[type="text"]:focus,
+        form select:focus,
+        form textarea:focus, input[type='text']:focus, input[type='email']:focus, input[type='password']:focus, input[type='username']:focus {
+            outline: none;
+            border-color: #f5c518;
+            box-shadow: 0 0 15px rgba(245, 197, 24, 0.4), 0 4px 10px rgba(0, 0, 0, 0.3);
+            background-color: #1f1f1f;
+        }
+        
+        /* Styl dla select - bardziej profesjonalny */
+        /* appearance: none - usuwa domyślną strzałkę przeglądarki, żeby móc dodać własną */
+        /* background-image z url("data:image/svg+xml...") - dodaje własną strzałkę jako obrazek SVG wbudowany w CSS */
+        /* background-position: right 16px center - umieszcza strzałkę po prawej stronie, 16px od prawej krawędzi, wyśrodkowaną pionowo */
+        form select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23f5c518' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 12px;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+        
+        form select option {
+            background-color: #1a1a1a;
+            color: #fff;
+            padding: 10px;
+        }
+        
+        form select option:hover {
+            background-color: #f5c518;
+            color: #0d0d0d;
+        }
+        
+        /* resize: vertical - pozwala użytkownikowi zmieniać wysokość textarea tylko w pionie (nie w poziomie) */
+        form textarea, textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+        
+        /* ::placeholder - styluje tekst placeholder w textarea (ten szary tekst "Napisz swoją opinię...") */
+        form textarea::placeholder {
+            color: #666;
+            font-style: italic;
+        }
+        
+        form input[type="submit"], .button {
+            padding: 16px 40px;
+            background-color: #f5c518;
+            color: #0d0d0d;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.3);
+        }
+        
+        /* transform: translateY(-3px) - przesuwa przycisk o 3px do góry przy hover (efekt "podnoszenia") */
+        form input[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(245, 197, 24, 0.5);
+            background-color: #ffd700;
+        }
+        
+        /* :active - gdy przycisk jest wciśnięty, przesuwa się mniej (-1px) - efekt "wciśnięcia" */
+        form input[type="submit"]:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.4);
+        }
+        
+        .placeholder-box p {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: 600;
+        }
+
+        .movies-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        /* .movies-table thead - nagłówek tabeli z filmami */
+        /* linear-gradient(135deg, ...) - gradient żółty do ciemniejszego żółtego pod kątem 135 stopni */
+        .movies-table thead {
+            background: linear-gradient(135deg, #f5c518 0%, #d4a017 100%);
+            color: #0d0d0d;
+        }
+        
+        .movies-table th {
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 16px;
+            border-bottom: 3px solid #0d0d0d;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 14px;
+        }
+        
+        .movies-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #333;
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .movies-table tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        /* transform: scale(1.01) - powiększa wiersz tabeli o 1% przy hover (bardzo subtelny efekt) */
+        .movies-table tbody tr:hover {
+            background-color: #262626;
+            transform: scale(1.01);
+            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.1);
+        }
+        
+        .movies-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* .opinion-row - wiersz w tabeli zawierający pojedynczą opinię o filmie */
+        .opinion-row {
+            background-color: #1f1f1f;
+        }
+        
+        .opinion-row:hover {
+            background-color: #2a2a2a;
+        }
+        
+        /* .opinion-cell - komórka w tabeli z tekstem opinii użytkownika */
+        .opinion-cell {
+            background-color: #1f1f1f;
+            color: #ccc;
+            font-size: 13px;
+            padding: 10px 15px;
+            border-bottom: 1px solid #333;
+            font-style: italic;
+        }
+        
+        .opinion-cell strong {
+            color: #f5c518;
+            font-style: normal;
+        }
+        
+        /* .movie-poster - obrazek plakatu filmu w tabeli */
+        .movie-poster {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        /* transform: scale(1.05) - powiększa plakat o 5% przy hover */
+        .movie-poster:hover {
+            box-shadow: 0 8px 20px rgba(245, 197, 24, 0.4), 0 4px 8px rgba(0, 0, 0, 0.5);
+            transform: scale(1.05);
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-evenly;
+        }
+        
+        /* Responsywność */
+        @media screen and (max-width: 768px) {
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+            
+            .container h2 {
+                font-size: 24px;
+            }
+            
+            .rating-section {
+                padding: 20px;
+            }
+            
+            .movies-table {
+                font-size: 12px;
+            }
+            
+            .movies-table th,
+            .movies-table td {
+                padding: 10px 8px;
+            }
+        }

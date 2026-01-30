@@ -1,0 +1,54 @@
+<?php
+session_start();
+include("connect.php");
+// symulacja logowania, jeśli nie ma sesji
+if (!isset($_SESSION['username']) || $_SESSION['loggedIn'] !== true) {
+    $_SESSION['username'] = 'AdminUser'; // tymczasowy użytkownik
+    header("Location: index.php"); exit;
+}
+
+$currentUser = $_SESSION['username'];
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <header>
+        <h1>Admin Panel</h1>
+        <div>Logged in as: <?php echo htmlspecialchars($currentUser); ?></div><a href="logout.php"><button class="btn btn-delete" style="margin-left:10px">Log-out</button></a></div>
+            <a href="delete.php"><button class="btn btn-delete" style="margin-left:10px">Delete account</button></a>
+    </header>
+    <div class='log-container'>
+    <table>
+        <?php
+        $stmt = $conn->prepare("SELECT id, username, email from users");
+        $stmt->execute();
+        $r = $stmt->get_result();?>
+        <thead>
+            <th>ID</th><th>NAZWA</th><th>EMAIL</th><th>USUŃ</th>
+        </thead><tbody><?php
+        
+        while ($row = $r->fetch_assoc()) {
+            
+            echo "<tr>
+                    <td>{$row['id']}</td>
+                    <td>{$row['username']}</td>
+                    <td>{$row['email']}</td>";
+
+            if ($row['username'] != $_SESSION['username']) {
+                echo "<td><a href='adminDelete.php?id={$row['id']}'><button id='{$row['id']}'>USUŃ</button></a></td></tr>";
+            }
+        }
+                    
+?></div>
+
+    </tbody>
+    </table>
+    
+</body>
+</html>
