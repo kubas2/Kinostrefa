@@ -40,7 +40,7 @@ $film = $result->fetch_assoc();
 </head>
 <body>
 
-<?php include 'header.php'; ?>
+<?php include 'headersimple.php'; ?>
 
 <div class="movie-page">
 
@@ -66,7 +66,7 @@ $film = $result->fetch_assoc();
             <p><strong>Czas trwania:</strong> <?= $film['czas_trwania'] ?> min</p>
         </div>
 
-        <a href="index.php" class="btn">← Powrót do listy filmów</a>
+        <a href="filmy.php" class="btn">← Powrót do listy filmów</a>
     </div>
 
 </div>
