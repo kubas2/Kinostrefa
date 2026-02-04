@@ -57,7 +57,7 @@
                 
                 
 
-                echo "<tr id='film-".htmlspecialchars(str_replace(' ', '',$row['tytul']))."'>";
+                echo "<tr id='film-".htmlspecialchars(str_replace(' ', '', $row['tytul']))."' onclick=\"window.location='film.php?id=".$row['id']."'\" style='cursor:cell;'>";
                 echo "<td><h2>".($row['srednia_ocena'])."</h2></td>";
                 echo "<td><img class='movie-poster' style='width: 150px; height: auto; border-radius: 8px;' src='img/". htmlspecialchars($row['plakat']). "'></td>"; 
                 echo "<td>".htmlspecialchars($row['tytul'])."</td>";
