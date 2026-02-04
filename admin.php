@@ -7,6 +7,9 @@ if (!isset($_SESSION['username']) || $_SESSION['loggedIn'] !== true) {
     $_SESSION['username'] = 'AdminUser'; // tymczasowy użytkownik
     header("Location: index.php"); exit;
 }
+$zapytanie ='SELECT isadmin From users Where username=?';
+
+
 
 $currentUser = $_SESSION['username'];
 ?>
@@ -28,7 +31,7 @@ $currentUser = $_SESSION['username'];
     <div class='container'>
     <div class="rating-section">
     <div class="placeholder-box">
-        <h2>Usuwanie użytkowników</h2>
+        <h2>Użytkownicy</h2>
     <table class="movies-table">
         <?php
         $stmt = $conn->prepare("SELECT id, username, email from users");
@@ -49,7 +52,7 @@ $currentUser = $_SESSION['username'];
                     <td>{$row['email']}</td>";
 
             if ($row['username'] != $_SESSION['username']) {
-                echo "<td><a href='adminDelete.php?id={$row['id']}'><button id='{$row['id']}'>USUŃ</button></a></td></tr>";
+                echo "<td><a href='adminDelete.php?id={$row['id']}'><button class='button' id='{$row['id']}'>USUŃ</button></a></td></tr>";
             }
         }
                     
