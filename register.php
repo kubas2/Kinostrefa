@@ -47,6 +47,10 @@
                     $stmt->execute();
                     if ($stmt->affected_rows === 1){
                         $error = "SUCCESSFULLY REGISTERED";
+                        $_SESSION['loggedIn'] = true;
+                        $_SESSION['username'] = $username;
+                        echo "SUCCESSFULLY LOGGED IN";
+                        header('Location: admin.php');
                     } else {
                         $error = "Couldnt add data to db.";
                     }
