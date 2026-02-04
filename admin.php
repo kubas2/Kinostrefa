@@ -1,6 +1,7 @@
 <?php
 session_start();
-include("connect.php");
+
+include("polaczenie.php");
 // symulacja logowania, jeśli nie ma sesji
 if (!isset($_SESSION['username']) || $_SESSION['loggedIn'] !== true) {
     $_SESSION['username'] = 'AdminUser'; // tymczasowy użytkownik
@@ -18,20 +19,27 @@ $currentUser = $_SESSION['username'];
     <title>Admin Panel</title>
 </head>
 <body>
+    <?php include("headersimple.php"); ?>
     <header>
         <h1>Admin Panel</h1>
         <div>Logged in as: <?php echo htmlspecialchars($currentUser); ?></div><a href="logout.php"><button class="btn btn-delete" style="margin-left:10px">Log-out</button></a></div>
             <a href="delete.php"><button class="btn btn-delete" style="margin-left:10px">Delete account</button></a>
     </header>
-    <div class='log-container'>
-    <table>
+    <div class='container'>
+    <div class="rating-section">
+    <div class="placeholder-box">
+        <h2>Usuwanie użytkowników</h2>
+    <table class="movies-table">
         <?php
         $stmt = $conn->prepare("SELECT id, username, email from users");
         $stmt->execute();
         $r = $stmt->get_result();?>
+           
         <thead>
             <th>ID</th><th>NAZWA</th><th>EMAIL</th><th>USUŃ</th>
-        </thead><tbody><?php
+        </thead><tbody>
+        
+            <?php
         
         while ($row = $r->fetch_assoc()) {
             
@@ -49,6 +57,8 @@ $currentUser = $_SESSION['username'];
 
     </tbody>
     </table>
-    
+    </div>
+    </div>
+    </div>
 </body>
 </html>
