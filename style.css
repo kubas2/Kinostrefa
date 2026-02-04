@@ -443,6 +443,7 @@
             justify-content: space-evenly;
         }
         
+        
         /* Responsywność */
         @media screen and (max-width: 768px) {
             header {
