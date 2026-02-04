@@ -7,8 +7,12 @@ if (!isset($_SESSION['username']) || $_SESSION['loggedIn'] !== true) {
     $_SESSION['username'] = 'AdminUser'; // tymczasowy użytkownik
     header("Location: index.php"); exit;
 }
-$zapytanie ='SELECT isadmin From users Where username=?';
-
+$stmt = $conn->prepare('SELECT isadmin From users Where username=?');
+$stmt->bind_param('s', $_SESSION['username']);
+$stmt->execute();
+$stmt->bind_result($isAdmin);
+$stmt->fetch();
+$stmt->close();
 
 
 $currentUser = $_SESSION['username'];
@@ -31,21 +35,21 @@ $currentUser = $_SESSION['username'];
     <div class='container'>
     <div class="rating-section">
     <div class="placeholder-box">
-        <h2>Użytkownicy</h2>
-    <table class="movies-table">
-        <?php
+    
+    <?php
+    if ($isAdmin) { 
+        echo"<h2>Użytkownicy</h2>";
+        echo'<table class="movies-table">';
+
         $stmt = $conn->prepare("SELECT id, username, email from users");
         $stmt->execute();
-        $r = $stmt->get_result();?>
+        $r = $stmt->get_result();
            
-        <thead>
+        echo'<thead>
             <th>ID</th><th>NAZWA</th><th>EMAIL</th><th>USUŃ</th>
-        </thead><tbody>
-        
-            <?php
-        
+        </thead><tbody>';
         while ($row = $r->fetch_assoc()) {
-            
+
             echo "<tr>
                     <td>{$row['id']}</td>
                     <td>{$row['username']}</td>
@@ -55,6 +59,13 @@ $currentUser = $_SESSION['username'];
                 echo "<td><a href='adminDelete.php?id={$row['id']}'><button class='button' id='{$row['id']}'>USUŃ</button></a></td></tr>";
             }
         }
+    } else {
+        echo "<h2>Moje seanse</h2>";
+         /*$stmt = $conn->prepare("SELECT id, title, date FROM sessions WHERE username=?");
+         $stmt->bind_param('s', $_SESSION['username']);
+         $stmt->execute();
+         $r = $stmt->get_result();*/
+    }
                     
 ?></div>
 
