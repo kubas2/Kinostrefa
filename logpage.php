@@ -15,10 +15,10 @@
 
     <nav class="btn-container">
         <p>
-            <a class='button' href="login.php">Log in</a>
+            <a class='button' href="login.php">Zaloguj się</a>
         </p>
         <p>
-            <a class='button' href="register.php">Register</a>
+            <a class='button' href="register.php">Zarejestruj się</a>
         </p> 
     </nav>
 </body>
