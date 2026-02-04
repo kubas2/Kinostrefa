@@ -50,7 +50,7 @@ $film = $resultFilm->fetch_assoc();
             <p><strong>Czas trwania:</strong> <?= (int)$film['czas_trwania'] ?> min</p>
         </div>
 
-        <a href="index.php" class="btn">← Powrót do listy filmów</a>
+        <a href="filmy.php" class="btn">← Powrót do listy filmów</a>
     </div>
 
 </div>
