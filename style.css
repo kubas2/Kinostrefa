@@ -244,8 +244,7 @@
         form input[type="text"],
         form select,
         form textarea,
-        input[type='text'], input[type='email'], input[type='password'], input[type='username'],
-        input[type='datetime-local'], input[type='number'] {
+        input[type='text'], input[type='email'], input[type='password'], input[type='username'] {
             padding: 14px 16px;
             border: 2px solid #333;
             border-radius: 10px;
@@ -261,8 +260,7 @@
         /* :hover - style działają gdy najedziemy myszką na pole formularza */
         form input[type="text"]:hover,
         form select:hover,
-        form textarea:hover, input[type='text']:hover, input[type='email']:hover, input[type='password']:hover, input[type='username']:hover,
-        input[type='datetime-local']:hover, input[type='number']:hover {
+        form textarea:hover, input[type='text']:hover, input[type='email']:hover, input[type='password']:hover, input[type='username']:hover {
             border-color: #444;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
@@ -439,10 +437,19 @@
             box-shadow: 0 8px 20px rgba(245, 197, 24, 0.4), 0 4px 8px rgba(0, 0, 0, 0.5);
             transform: scale(1.05);
         }
-
+        
         .btn-container {
             display: flex;
             justify-content: space-evenly;
+        }
+        .error-message{
+            text-align: center;
+            color:red;
+
+        }
+        .success-message{
+            text-align: center;
+            color: rgb(33, 246, 33);
         }
         @media screen and (max-width: 768px) {
             header {
