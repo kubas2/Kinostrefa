@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="rating-section">
-        <h2>Filmy i ich recenzje</h2>
+        <h2>Repertuar</h2>
         <div class="placeholder-box">
             <?php
             require('polaczenie.php');

@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 include("polaczenie.php");
 // symulacja logowania, jeśli nie ma sesji
@@ -41,7 +43,37 @@ $currentUser = $_SESSION['username'];
     <div class="placeholder-box">
     
     <?php
-    if ($isAdmin) { 
+    if ($isAdmin) { // Jeśli użytkownik jest adminem
+        if (isset($_SESSION['error'])) {
+            echo "<div class='error-message'>" . htmlspecialchars($_SESSION['error']) . "</div>";
+            unset($_SESSION['error']);
+        } elseif (isset($_SESSION['success'])) {
+            echo "<div class='success-message'>" . htmlspecialchars($_SESSION['success']) . "</div>";
+            unset($_SESSION['success']);
+        }
+        echo "<h2>Dodaj seans</h2>";
+        echo '<form method="POST" action="addSession.php">
+                <label for="movie">Wybierz film:</label>
+                <select id="movie" name="movie" required>';
+        $stmt = $conn->prepare("SELECT id, tytul FROM filmy");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        while ($row = $result->fetch_assoc()) {
+            echo "<option value=\"" . htmlspecialchars($row['id']) . "\">"
+               . htmlspecialchars($row['tytul']) . "</option>";
+        }
+        echo '</select>
+
+                <label for="date">Data i godzina seansu:</label>
+                <input type="datetime-local" id="date" name="date" required>
+
+                <label for="sala">Numer sali:</label>
+                <input type="number" min="1" max="5" id="sala" name="sala" required>
+
+                <input type="submit" value="Dodaj seans">
+              </form>';
+
+        echo "</div></div></div><div class='container'><div class='rating-section'><div class='placeholder-box'>";
         echo"<h2>Użytkownicy</h2>";
         echo'<table class="movies-table">';
 

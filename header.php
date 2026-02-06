@@ -12,8 +12,8 @@
     <h1>Kino Strefa</h1>
     <nav>
         <a href="index.php">Home</a>
-        <a href="index.php#movies-table">Filmy</a>
-        <a href="#popularne">Popularne</a>
+        <a href="index.php#movies-table">Repertuar</a>
+        <a href="index.php#popularne">Popularne</a>
         <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Do góry</a>
         <a href='logpage.php'>Konto</a>
     </nav>

@@ -15,7 +15,6 @@
 </head>
 <body>
     <?php
-    session_start();
     require "polaczenie.php";
     include 'header.php';
     ?>

@@ -66,6 +66,21 @@ $film = $result->fetch_assoc();
             <p><strong>Czas trwania:</strong> <?= $film['czas_trwania'] ?> min</p>
         </div>
 
+        <?php
+        $stmt = $conn->prepare("SELECT data_start, sala FROM seanse WHERE idFilmu = ? ORDER BY data_start ASC");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $seanse = $stmt->get_result();
+        if ($seanse->num_rows > 0) {
+            echo "<h2>Nadchodzące seanse:</h2><ul>";
+            while ($seans = $seanse->fetch_assoc()) {
+                echo "<li>" . htmlspecialchars($seans['data_start']) . " w sali " . htmlspecialchars($seans['sala']) . "</li>";
+            }
+            echo "</ul>";
+        } else {
+            echo "<p>Brak nadchodzących seansów.</p>";
+        } ?>
+
         <a href="index.php" class="btn">← Powrót do listy filmów</a>
     </div>
 
