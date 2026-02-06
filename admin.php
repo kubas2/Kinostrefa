@@ -28,9 +28,13 @@ $currentUser = $_SESSION['username'];
 <body>
     <?php include("headersimple.php"); ?>
     <header>
-        <h1>Admin Panel</h1>
-        <div>Logged in as: <?php echo htmlspecialchars($currentUser); ?></div><a href="logout.php"><button class="btn btn-delete" style="margin-left:10px">Log-out</button></a></div>
-            <a href="delete.php"><button class="btn btn-delete" style="margin-left:10px">Delete account</button></a>
+        <?php
+        if ($isAdmin) { 
+        echo"<h1>Admin Panel</h1>";
+        } else {
+            echo "<h1>Moje konto</h1>"; }?>
+        <div>Zalogowano jako: <?php echo htmlspecialchars($currentUser); ?></div><a href="logout.php"><button class='button' style="margin-left:10px">Wyloguj się</button></a></div>
+            <a href="delete.php"><button class='button' style="margin-left:10px">Usuń konto</button></a>
     </header>
     <div class='container'>
     <div class="rating-section">
