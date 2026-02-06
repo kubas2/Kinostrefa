@@ -74,6 +74,33 @@ $currentUser = $_SESSION['username'];
               </form>';
 
         echo "</div></div></div><div class='container'><div class='rating-section'><div class='placeholder-box'>";
+        echo "<h2>Dodaj film</h2>";
+        echo '<form method="POST" action="addFilm.php">
+                <label for="tytul">Tytuł:</label>
+                <input type="text" id="tytul" name="tytul" required>
+
+                <label for="rokWydania">Rok wydania:</label>
+                <input type="number" id="rokWydania" name="rokWydania" min="1900" max="2100" required>
+
+                <label for="rezyser">Reżyser:</label>
+                <input type="text" id="rezyser" name="rezyser" required>
+
+                <label for="gatunek">Gatunek:</label>
+                <input type="text" id="gatunek" name="gatunek" required>
+
+                <label for="opis">Opis:</label>
+                <textarea id="opis" name="opis" rows="4" required></textarea>
+
+                <label for="czas_trwania">Czas trwania (minuty):</label>
+                <input type="number" id="czas_trwania" name="czas_trwania" min="1" required>
+
+                <label for="plakat">Plakat (nazwa pliku np. matrix.png):</label>
+                <input type="text" id="plakat" name="plakat" required>
+
+                <input type="submit" value="Dodaj film">
+              </form>';
+
+        echo "</div></div></div><div class='container'><div class='rating-section'><div class='placeholder-box'>";
         echo"<h2>Użytkownicy</h2>";
         echo'<table class="movies-table">';
 
