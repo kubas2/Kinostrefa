@@ -18,7 +18,7 @@
             $result = $stmt->get_result();
 
             ?>
-            <table class="movies-table">
+            <table class="movies-table" id="movies-table">
                 <thead>
                     <tr>
                         <th>Ocena</th>
