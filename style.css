@@ -329,6 +329,19 @@
             letter-spacing: 1px;
             box-shadow: 0 4px 15px rgba(245, 197, 24, 0.3);
         }
+        .button-small {padding: 8px 10px;
+            background-color: #f5c518;
+            color: #0d0d0d;
+            border: none;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(245, 197, 24, 0.3);}
         
         /* transform: translateY(-3px) - przesuwa przycisk o 3px do góry przy hover (efekt "podnoszenia") */
         form input[type="submit"]:hover {

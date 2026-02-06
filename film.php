@@ -74,7 +74,7 @@ $film = $result->fetch_assoc();
         if ($seanse->num_rows > 0) {
             echo "<h2>Nadchodzące seanse:</h2><ul>";
             while ($seans = $seanse->fetch_assoc()) {
-                echo "<li>" . htmlspecialchars($seans['data_start']) . " w sali " . htmlspecialchars($seans['sala']) ."<button onclick=\"window.location.href='seans.php?id=" . $seans['id'] . "'\">Wybierz seans</button>". "</li>";
+                echo "<li>" . htmlspecialchars($seans['data_start']) . " w sali " . htmlspecialchars($seans['sala']) ." " ."<button class='button-small' onclick=\"window.location.href='seans.php?id=" . $seans['id'] . "'\">Wybierz seans</button>". "</li>";
             }
             echo "</ul>";
         } else {
