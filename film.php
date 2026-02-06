@@ -67,14 +67,14 @@ $film = $result->fetch_assoc();
         </div>
 
         <?php
-        $stmt = $conn->prepare("SELECT data_start, sala FROM seanse WHERE idFilmu = ? ORDER BY data_start ASC");
+        $stmt = $conn->prepare("SELECT id, data_start, sala FROM seanse WHERE idFilmu = ? ORDER BY data_start ASC");
         $stmt->bind_param('i', $id);
         $stmt->execute();
         $seanse = $stmt->get_result();
         if ($seanse->num_rows > 0) {
             echo "<h2>Nadchodzące seanse:</h2><ul>";
             while ($seans = $seanse->fetch_assoc()) {
-                echo "<li>" . htmlspecialchars($seans['data_start']) . " w sali " . htmlspecialchars($seans['sala']) . "</li>";
+                echo "<li>" . htmlspecialchars($seans['data_start']) . " w sali " . htmlspecialchars($seans['sala']) ."<button onclick=\"window.location.href='seans.php?id=" . $seans['id'] . "'\">Wybierz seans</button>". "</li>";
             }
             echo "</ul>";
         } else {
