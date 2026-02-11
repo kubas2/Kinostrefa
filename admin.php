@@ -124,10 +124,68 @@ $currentUser = $_SESSION['username'];
         }
     } else {
         echo "<h2>Moje seanse</h2>";
-         /*$stmt = $conn->prepare("SELECT id, title, date FROM sessions WHERE username=?");
-         $stmt->bind_param('s', $_SESSION['username']);
-         $stmt->execute();
-         $r = $stmt->get_result();*/
+        // Pobierz id użytkownika
+        $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
+        $stmt->bind_param('s', $_SESSION['username']);
+        $stmt->execute();
+        $stmt->bind_result($userId);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Pobierz rezerwacje użytkownika wraz z danymi seansu, filmu, plakatu i siedzeń
+        $stmt = $conn->prepare("
+            SELECT r.id, s.data_start, f.tytul, f.id as film_id, p.sciezka as plakat, s.sala, s.cena, s.id as seans_id
+            FROM rezerwacje r
+            JOIN seanse s ON r.idSeansu = s.id
+            JOIN filmy f ON s.idFilmu = f.id
+            LEFT JOIN plakaty p ON f.id = p.idFilmu
+            WHERE r.idUser = ?
+            GROUP BY r.id, s.data_start, f.tytul, f.id, p.sciezka, s.sala, s.cena, s.id
+            ORDER BY s.data_start DESC
+        ");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows === 0) {
+            echo "<p>Brak rezerwacji.</p>";
+        } else {
+            echo "<table class='movies-table'><thead><tr><th>Plakat</th><th>Tytuł</th><th>Data i godzina</th><th>Sala</th><th>Siedzenia</th><th>Status</th></tr></thead><tbody>";
+            while ($row = $result->fetch_assoc()) {
+                // Pobierz siedzenia dla tej rezerwacji
+                $stmt2 = $conn->prepare("
+                    SELECT siedzenia.rzad, siedzenia.numer
+                    FROM rezerwacje
+                    JOIN siedzenia ON rezerwacje.idSiedzenia = siedzenia.id
+                    WHERE rezerwacje.id = ?
+                ");
+                $stmt2->bind_param('i', $row['id']);
+                $stmt2->execute();
+                $siedzeniaResult = $stmt2->get_result();
+                $siedzeniaArr = [];
+                while ($siedzenie = $siedzeniaResult->fetch_assoc()) {
+                    $siedzeniaArr[] = "Rząd: " . $siedzenie['rzad'] . ", Miejsce: " . $siedzenie['numer'];
+                }
+                $stmt2->close();
+                $siedzeniaStr = implode('<br>', $siedzeniaArr);
+                $plakatPath = $row['plakat'] ? 'img/' . htmlspecialchars($row['plakat']) : 'img/avatar.png';
+                echo "<tr>";
+                echo "<td><img src='" . $plakatPath . "' alt='plakat' style='width:60px; border-radius:6px;'></td>";
+                echo "<td>" . htmlspecialchars($row['tytul']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['data_start']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['sala']) . "</td>";
+                echo "<td>" . $siedzeniaStr . "</td>";
+                // Pobierz status rezerwacji
+                $stmt3 = $conn->prepare("SELECT status FROM rezerwacje WHERE id = ?");
+                $stmt3->bind_param('i', $row['id']);
+                $stmt3->execute();
+                $stmt3->bind_result($status);
+                $stmt3->fetch();
+                $stmt3->close();
+                echo "<td>" . htmlspecialchars($status) . "</td>";
+                echo "</tr>";
+            }
+            echo "</tbody></table>";
+        }
     }
                     
 ?></div>
