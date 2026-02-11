@@ -580,6 +580,44 @@
     transform: translateY(-2px);
     box-shadow: 0 10px 28px rgba(245, 197, 24, 0.55);
 }
+.seanse-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.seans-box {
+    background: #1e1e1e;
+    border-radius: 10px;
+    padding: 15px 20px;
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    transition: 0.2s ease;
+}
+
+.seans-box:hover {
+    transform: translateY(-3px);
+    background: #2a2a2a;
+}
+
+.seans-date {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.seans-sala {
+    font-size: 13px;
+    color: #bbb;
+}
+
+.seans-action {
+    margin-left: 10px;
+}
+
 
 /* ===============================
    RESPONSYWNOŚĆ
