@@ -9,7 +9,7 @@
             require('polaczenie.php');
             $sql = "SELECT f.id, f.tytul, f.rokWydania, f.rezyser, f.gatunek, f.opis, f.czas_trwania, p.sciezka AS `plakat`, 
                     ROUND((SELECT AVG(r.ocena) FROM recenzje AS r WHERE r.idFilmu = f.id), 1) AS `srednia_ocena`,
-                    (SELECT GROUP_CONCAT(CONCAT(u.imie, '*', u.nazwisko, '*', r.ocena, '*', r.opis) SEPARATOR '|')
+                    (SELECT GROUP_CONCAT(CONCAT(u.username, '*', r.ocena, '*', COALESCE(r.opis, '')) SEPARATOR '|')
                     FROM recenzje AS r INNER JOIN users AS u ON r.idUser = u.id WHERE r.idFilmu = f.id) AS `wszystkie_opinie`
                     FROM filmy AS f LEFT JOIN plakaty AS p ON f.id = p.idFilmu 
                     ORDER BY `srednia_ocena` DESC, f.tytul ASC";
@@ -41,13 +41,12 @@
                     $rawRates = explode('|', $row['wszystkie_opinie']);
                     foreach ($rawRates as $rate) {
                         if (!empty($rate)) {
-                            $parts = explode('*', $rate);
-                            if (count($parts) >= 4) {
+                            $parts = explode('*', $rate, 3); // username*ocena*opis
+                            if (count($parts) === 3) {
                                 $rates[] = [
-                                    'imie' => $parts[0],
-                                    'nazwisko' => $parts[1],
-                                    'ocena' => $parts[2],
-                                    'opis' => $parts[3]
+                                    'username' => trim($parts[0]),
+                                    'ocena' => $parts[1],
+                                    'opis' => $parts[2]
                                 ];
                             }
                         }
@@ -72,7 +71,7 @@
                 foreach ($rates as $rate) {
                     echo "<tr class='opinion-row'>";
                     echo "<td colspan='8' class='opinion-cell'>";
-                    echo "<strong>".htmlspecialchars($rate['imie'])." ".htmlspecialchars($rate['nazwisko'])."</strong> ";
+                    echo "<strong>".htmlspecialchars($rate['username'])."</strong> ";
                     echo "(" . htmlspecialchars($rate['ocena']) . "/10): ";
                     echo htmlspecialchars($rate['opis']);
                     echo "</td>";
