@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 06, 2026 at 01:46 PM
+-- Generation Time: Feb 13, 2026 at 12:56 PM
 -- Wersja serwera: 10.4.32-MariaDB
 -- Wersja PHP: 8.2.12
 
@@ -125,6 +125,20 @@ CREATE TABLE `rezerwacje` (
   `data_rezerwacji` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `rezerwacje`
+--
+
+INSERT INTO `rezerwacje` (`id`, `idSeansu`, `idSiedzenia`, `idUser`, `status`, `data_rezerwacji`) VALUES
+(1, 1, 14, 9, 'zarezerwowana', '2026-02-11 14:38:21'),
+(2, 1, 4, 9, 'zarezerwowana', '2026-02-11 15:01:38'),
+(3, 1, 5, 9, 'zarezerwowana', '2026-02-11 15:01:38'),
+(7, 1, 6, 9, 'zarezerwowana', '2026-02-11 15:08:07'),
+(8, 1, 21, 9, 'zarezerwowana', '2026-02-11 15:08:29'),
+(9, 1, 3, 9, 'zarezerwowana', '2026-02-11 15:09:06'),
+(11, 1, 20, 9, 'zarezerwowana', '2026-02-11 15:10:14'),
+(13, 1, 16, 9, 'zarezerwowana', '2026-02-11 15:10:41');
+
 -- --------------------------------------------------------
 
 --
@@ -145,7 +159,8 @@ CREATE TABLE `seanse` (
 
 INSERT INTO `seanse` (`id`, `idFilmu`, `data_start`, `sala`, `cena`) VALUES
 (1, 3, '2026-02-12 20:00:00', '1', 0.00),
-(2, 3, '2026-02-14 22:00:00', '3', 0.00);
+(2, 3, '2026-02-14 22:00:00', '3', 0.00),
+(3, 1, '2026-03-12 12:00:00', '2', 0.00);
 
 -- --------------------------------------------------------
 
@@ -342,11 +357,12 @@ INSERT INTO `users` (`id`, `username`, `email`, `password`, `imie`, `nazwisko`, 
 (1, 'adam', 'adam@wp.pl', '$2y$10$Mvkp2crG5tV7nfDPu6WxP.JhV3Nbh2NKCNO0Yg86iEYZR5JQaCo0a', 'Adam', 'Kowalski', NULL, NULL, '2026-01-28 13:05:33', 0),
 (2, 'hania', 'hania@wp.pl', '$2y$10$TIfsonnn3lkAVWcBPaCTZe9xBlzTmaWVrJ2IZ.4uAc06.rbL/9SnC', 'Hania', 'Nowak', NULL, NULL, '2026-01-28 13:05:33', 0),
 (3, 'tomasz', 'tomasz@wp.pl', '$2y$10$KgMk/S9AExiZtWiZEwCPaOztKcbpgLnZQ6q93oDjIZ.K.DtIw2aje', 'Tomasz', 'Lewandowski', NULL, NULL, '2026-01-28 13:05:33', 0),
-(4, '', '', '', 'Hanna', 'Baran', NULL, NULL, '2026-01-28 13:17:57', 0),
+(4, 'halohalo', 'londyn@interia.pl', 'fdsfdsfdsfds', 'Hanna', 'Baran', NULL, NULL, '2026-01-28 13:17:57', 0),
 (5, 'acz', 'dwa@123', '$2y$10$xGFBxtj0e0H931zze2f0p.RLYwKhrbV/4JIZEhoB9qikf39XLWrsS', NULL, NULL, NULL, NULL, '2026-02-04 12:35:23', 1),
 (6, 'ewq', '123@123', '$2y$10$HLTKgsVpjV9/sOi1t9XkUOjRhOalpU7PDygcLFGOTJl4tnigybn/W', NULL, NULL, NULL, NULL, '2026-02-04 15:03:55', 0),
 (7, 'kuba5@gmail.com', 'kuba5@gmail.com', '$2y$10$Ar0suKaaw5RNGfgF4YoDnOA6Kc/NcxvPSZNMbXr26ZWnRc9Bp/kI2', NULL, NULL, NULL, NULL, '2026-02-06 11:08:30', 1),
-(8, 'kuba6@gmail.com', 'kuba6@gmail.com', '$2y$10$uy61mBFIGc5z.eFXUHlK2ef7wKT1WAKbEGLQlDXZ/CYeQvhOisqcK', NULL, NULL, NULL, NULL, '2026-02-06 11:13:49', 0);
+(8, 'kuba6@gmail.com', 'kuba6@gmail.com', '$2y$10$uy61mBFIGc5z.eFXUHlK2ef7wKT1WAKbEGLQlDXZ/CYeQvhOisqcK', NULL, NULL, NULL, NULL, '2026-02-06 11:13:49', 0),
+(9, 'kuba7@gmail.com', 'kuba7@gmail.com', '$2y$10$c5t70zkSKlQKBNsgDN3j8uwSASIq6wZxpv7x2vTSpTATQZADX.PCm', NULL, NULL, NULL, NULL, '2026-02-11 12:45:42', 0);
 
 --
 -- Indeksy dla zrzutów tabel
@@ -424,31 +440,31 @@ ALTER TABLE `plakaty`
 -- AUTO_INCREMENT for table `recenzje`
 --
 ALTER TABLE `recenzje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `rezerwacje`
 --
 ALTER TABLE `rezerwacje`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `seanse`
 --
 ALTER TABLE `seanse`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `siedzenia`
 --
 ALTER TABLE `siedzenia`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=256;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables
