@@ -109,22 +109,47 @@ $currentUser = $_SESSION['username'];
         $r = $stmt->get_result();
            
         echo'<thead>
-            <th>ID</th><th>NAZWA</th><th>EMAIL</th><th>USUŃ</th>
+            <th>ID</th>
+            <th>NAZWA</th>
+            <th>EMAIL</th>
+            <th>USUŃ</th>
+            <th>SZCZEGÓŁY</th>            
         </thead><tbody>';
         while ($row = $r->fetch_assoc()) {
 
-            echo "<tr>
-                    <td>{$row['id']}</td>
-                    <td>{$row['username']}</td>
-                    <td>{$row['email']}</td>";
+    echo "<tr>";
+    echo "<td>{$row['id']}</td>";
+    echo "<td>{$row['username']}</td>";
+    echo "<td>{$row['email']}</td>";
 
-            if ($row['username'] != $_SESSION['username']) {
-                echo "<td><a href='adminDelete.php?id={$row['id']}'><button class='button' id='{$row['id']}'>USUŃ</button></a></td></tr>";
-            }
-        }
+    
+    
+    if ($row['username'] != $_SESSION['username']) {
+
+        echo "<td>
+                <a href='adminDelete.php?id={$row['id']}'
+                onclick=\"return confirm('Na pewno usunąć użytkownika?')\">
+                    <button class='button'>USUŃ</button>
+                </a>
+            </td>";
+
+    } else {
+
+        echo "<td>-</td>";
+    }
+    echo "<td>
+            <a href='adminUserDetails.php?id={$row['id']}'>
+                <button class='button' style='background:#444;'>SZCZEGÓŁY</button>
+            </a>
+        </td>";
+
+        echo "</tr>";
+    }
+
+
+        
     } else {
         echo "<h2>Moje seanse</h2>";
-        // Pobierz id użytkownika
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->bind_param('s', $_SESSION['username']);
         $stmt->execute();
@@ -132,7 +157,7 @@ $currentUser = $_SESSION['username'];
         $stmt->fetch();
         $stmt->close();
 
-        // Pobierz rezerwacje użytkownika wraz z danymi seansu, filmu, plakatu i siedzeń
+        
         $stmt = $conn->prepare("
             SELECT r.id, s.data_start, f.tytul, f.id as film_id, p.sciezka as plakat, s.sala, s.cena, s.id as seans_id
             FROM rezerwacje r
@@ -149,9 +174,9 @@ $currentUser = $_SESSION['username'];
         if ($result->num_rows === 0) {
             echo "<p>Brak rezerwacji.</p>";
         } else {
-            echo "<table class='movies-table'><thead><tr><th>Plakat</th><th>Tytuł</th><th>Data i godzina</th><th>Sala</th><th>Siedzenia</th><th>Status</th></tr></thead><tbody>";
+            echo "<table class='movies-table'><thead><tr><th>Plakat</th><th>Tytuł</th><th>Data i godzina</th><th>Sala</th><th>Siedzenia</th><th>Status</th><th>Akcje</th></tr></thead><tbody>";
             while ($row = $result->fetch_assoc()) {
-                // Pobierz siedzenia dla tej rezerwacji
+                
                 $stmt2 = $conn->prepare("
                     SELECT siedzenia.rzad, siedzenia.numer
                     FROM rezerwacje
@@ -174,7 +199,7 @@ $currentUser = $_SESSION['username'];
                 echo "<td>" . htmlspecialchars($row['data_start']) . "</td>";
                 echo "<td>" . htmlspecialchars($row['sala']) . "</td>";
                 echo "<td>" . $siedzeniaStr . "</td>";
-                // Pobierz status rezerwacji
+                
                 $stmt3 = $conn->prepare("SELECT status FROM rezerwacje WHERE id = ?");
                 $stmt3->bind_param('i', $row['id']);
                 $stmt3->execute();
@@ -182,6 +207,13 @@ $currentUser = $_SESSION['username'];
                 $stmt3->fetch();
                 $stmt3->close();
                 echo "<td>" . htmlspecialchars($status) . "</td>";
+                echo "<td>
+                        <a href='cancelReservation.php?id={$row['id']}'
+                        onclick=\"return confirm('Na pewno anulować seans?')\">
+                            <button class='button' style='background:red;'>ANULUJ</button>
+                        </a>
+                    </td>";
+
                 echo "</tr>";
             }
             echo "</tbody></table>";
