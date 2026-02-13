@@ -1,7 +1,7 @@
 <?php
 
-//$conn = new mysqli('localhost','root', '','kino2');
-$conn = new mysqli('localhost','sendziak', '','sendziak');
+$conn = new mysqli('localhost','root', '','kino2');
+//$conn = new mysqli('localhost','sendziak', '','sendziak');
 if ($conn->connect_error) {
   die("Połączenie nieudane: " . $conn->connect_error);
 }

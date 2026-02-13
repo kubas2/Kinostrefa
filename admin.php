@@ -193,7 +193,7 @@ $currentUser = $_SESSION['username'];
                   </form>';
         }
               
-
+        echo "</div></div></div><div class='container'><div class='rating-section'><div class='placeholder-box'>";
         echo "<h2>Moje seanse</h2>";
 
         
