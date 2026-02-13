@@ -148,14 +148,53 @@ $currentUser = $_SESSION['username'];
 
 
         
-    } else {
-        echo "<h2>Moje seanse</h2>";
+    } else { // nie jest adminem, pokazujemy seanse
+        echo "<h2>Dodaj opinię</h2>";
+        
         $stmt = $conn->prepare("SELECT id FROM users WHERE username = ?");
         $stmt->bind_param('s', $_SESSION['username']);
         $stmt->execute();
         $stmt->bind_result($userId);
         $stmt->fetch();
         $stmt->close();
+        $_SESSION['userId'] = $userId;
+        
+        $stmt = $conn->prepare("
+            SELECT DISTINCT f.id, f.tytul
+            FROM filmy f
+            JOIN seanse s ON f.id = s.idFilmu
+            JOIN rezerwacje r ON s.id = r.idSeansu
+            WHERE r.idUser = ? AND r.status = 'oplacona'
+            ORDER BY f.tytul
+        ");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows === 0) {
+            echo "<p style='color: #999;'>Brak filmów do recenzji. Musisz mieć opłaconą rezerwację, aby dodać opinię.</p>";
+        } else {
+            echo '<form method="POST" action="addReview.php">
+                    <label for="film">Wybierz film:</label>
+                    <select id="film" name="film" required>';
+            while ($row = $result->fetch_assoc()) {
+                echo "<option value=\"" . htmlspecialchars($row['id']) . "\">"
+                   . htmlspecialchars($row['tytul']) . "</option>";
+            }
+            echo '</select>
+
+                    <label for="rating">Ocena (1-10):</label>
+                    <input type="number" id="rating" name="rating" min="1" max="10" required>
+
+                    <label for="comment">Komentarz:</label>
+                    <textarea id="comment" name="comment" rows="4"></textarea>
+
+                    <input type="submit" value="Dodaj opinię">
+                  </form>';
+        }
+              
+
+        echo "<h2>Moje seanse</h2>";
 
         
         $stmt = $conn->prepare("
